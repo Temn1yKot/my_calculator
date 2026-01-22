@@ -1,25 +1,25 @@
 #include <iostream>
 #include <limits>
-#include <gmpxx.h>   // CLion не видит её, ну и ладно, хотя-бы работает
+#include <gmpxx.h>   // CLion doesn't see this:(
 
 const char* version = "1.0";
 signed int main(const signed int argc, char* argv[]) {
-    setlocale(LC_ALL, "RU");
+    setlocale(LC_ALL, "EN");
     if(argc == 1) {
-        std::cout << "Использование: " << argv[0] << " <операция(напишите \"" << argv[0] << " --help\" для информации о них)> <числа(можно написать много если выбрана операция +, / или *, иначе же можно написать только 2 числа)>" << std::endl;
+        std::cout << "Using: " << argv[0] << " <operation(write \"" << argv[0] << " --help\" for get some help)> <numbers(write " << argv[0] << " --help to get some information about allowed number of numbers)>" << std::endl;
     } else if (argc == 2) {
         if(strcmp(argv[1], "--help") == 0) {
-            std::cout << "Операторы:\n"
-                      << "'+' — оператор сумы(от 2-х чисел включительно)\n"
-                      << "'-' — оператор вычитания(от 2-х чисел включительно, последовательно)\n"
-                      << "'/' — оператор деления(от 2-х чисел включительно, последовательно)\n"
-                      << "'*' — оператор сумы умножения(от 2-х чисел)\n"
-                      << "'%' — оператор получения остатка деления(только 2 числа)\n"
-                      << "'/%' — оператор деления и получения остатка(на следующей строке, только 2 числа)\n"
-                      << "'**' или '^' — оператор вычисления степени чисел(только 2 числа, 1-е — само число, 2-е — его степень)\n"
-                      << "'//' — оператор целочисленного деления(оператор '/' возвращает число с точкой)\n"
-                      << "'~' — оператор вычисления среднего арифметического(от 2-х чисел)\n"
-                      << "'!' — оператор вычисления факториала числа (от 2-х чисел)"
+            std::cout << "Operators:\n"
+                      << "'+' — sum operator(from 2 numbers inclusive)\n"
+                      << "'-' — minus operator(from 2 numbers inclusive, sequentially)\n"
+                      << "'/' — division operator(from 2 numbers inclusive, sequentially)\n"
+                      << "'*' — multiplication operator(from 2 numbers inclusive)\n"
+                      << "'%' — getting a remainder from division operator(only 2 numbers)\n"
+                      << "'/%' — division and getting а remainder from division operator(on a next line, only 2 numbers)\n"
+                      << "'**' or '^' — pow operator(only 2 numbers, 1-е — a number, 2-е — a power)\n"
+                      << "'//' — getting integer result of division operator(an operator '/' returns floating-point number)\n"
+                      << "'~' — arithmetic mean operator(from 2 numbers inclusive)\n"
+                      << "'!' — factorial operator(from 1 number inclusive)"
             <<
             std::endl;
         } else if(strcmp(argv[1], "--version") == 0) {
@@ -32,17 +32,17 @@ signed int main(const signed int argc, char* argv[]) {
             try {
                 x = std::stoi(argv[2]);
             } catch (const std::invalid_argument&) {
-                std::cerr << "не является числом: " << argv[2] << std::endl;
+                std::cerr << "is not a number: " << argv[2] << std::endl;
                 return(1);
             } catch (const std::out_of_range&) {
-                const bool cond = argv[2][0] == '-';   // просто подставится на место всех его использований на этапе компиляции(наверное)
-                std::cerr << "слишком "
-                          << (cond ? "маленькое" : "большое")
-                          << " число: "
+                const bool cond = argv[2][0] == '-';
+                std::cerr << "too "
+                          << (cond ? "small" : "big")
+                          << " number: "
                           << argv[2]
                           << '('
-                          << (cond ? "минимально" : "максимально")
-                          << " доступное число это "
+                          << (cond ? "minimum" : "maximum")
+                          << " available number "
                           << (cond ? std::numeric_limits<signed long long int>::min() : std::numeric_limits<signed long long int>::max())
                           << ')'
                           <<
@@ -70,24 +70,24 @@ signed int main(const signed int argc, char* argv[]) {
     } else {
         if(const std::string signs = "~+*-/%^!"; signs.contains(argv[1]) || (argv[1][0] == '*' && argv[1][1] == '*') || (argv[1][0] == '/' && (argv[1][1] == '/' || argv[1][1] == '%'))) {
             const signed short int size = argc-2;
-            auto* nums = new signed long long int[size];   // усе эти std::vector'ы для нубов, да и тут он бессмыслен
+            auto* nums = new signed long long int[size];   // std::vectors are for noobs, there is no point in using it here
             auto clean = [&]->void{delete[] nums; nums = nullptr;};
             for (int i = 2; i < argc; i++) {
                 try {
                     nums[i-2] = std::stoll(argv[i]);
                 } catch (const std::invalid_argument&) {
-                    std::cerr << "не является числом: " << argv[i] << std::endl;
+                    std::cerr << "is not a number: " << argv[i] << std::endl;
                     clean();
                     return(1);
                 } catch (const std::out_of_range&) {
-                    const bool cond = argv[i][0] == '-';   // просто подставится на место всех его использований на этапе компиляции(наверное)
-                    std::cerr << "слишком "
-                              << (cond ? "маленькое" : "большое")
-                              << " число: "
+                    const bool cond = argv[i][0] == '-';
+                    std::cerr << "too "
+                              << (cond ? "small" : "big")
+                              << " number: "
                               << argv[i]
                               << '('
-                              << (cond ? "минимально" : "максимально")
-                              << " доступное число это "
+                              << (cond ? "minimum" : "maximum")
+                              << " available number is "
                               << (cond ? std::numeric_limits<signed long long int>::min() : std::numeric_limits<signed long long int>::max())
                               << ')'
                               <<
@@ -110,7 +110,7 @@ signed int main(const signed int argc, char* argv[]) {
                     std::cout << (nums[0] / nums[1]) << std::endl;
             } else if(argveq("/%")) {
                 if(argc > 4) {
-                    std::cerr << argv[0] << ": нельзя получить остаток от деления больше чем 2-х чисел";
+                    std::cerr << argv[0] << ": too many arguments";
                     clean();
                     return(1);
                 } else {
@@ -119,7 +119,7 @@ signed int main(const signed int argc, char* argv[]) {
             } else if(argveq("**")) {
                 goto power;
             } else {
-                switch(*(argv[1])) {   // if-else ветка бессмысленно, так что буду использовать nintendo switch (жаль, что тут нету Steam Deck'а)
+                switch(*(argv[1])) {   //  nintendo switch
                     case '+': {
                         mpz_class result(std::to_string(nums[0]));
                         for(signed short int i = 1; i < size; i++) result += mpz_class(std::to_string(nums[i]));
@@ -151,7 +151,7 @@ signed int main(const signed int argc, char* argv[]) {
                                 std::cout << static_cast<double>(nums[0]) / static_cast<double>(nums[1]) << std::endl;
                             else {
                                 zerodiv:
-                                std::cerr << "деление на 0 запрещено!" << std::endl;
+                                std::cerr << "division by zero!" << std::endl;
                                 clean();
                                 return(1);
                             }
@@ -160,7 +160,7 @@ signed int main(const signed int argc, char* argv[]) {
                     }
                     case '%': {
                         if(argc > 4) {
-                            std::cerr << argv[0] << ": нельзя получить остаток от деления больше чем 2-х чисел";
+                            std::cerr << argv[0] << ": too many arguments";
                             clean();
                             return(1);
                         }
@@ -200,7 +200,7 @@ signed int main(const signed int argc, char* argv[]) {
                     case '^': {
                         power:
                         if(argc > 4) {
-                            std::cerr << argv[0] << ": слишком много аргументов(для степени надо 2 числа!)";
+                            std::cerr << argv[0] << ": too many arguments";
                             clean();
                             return(1);
                         }
@@ -229,7 +229,7 @@ signed int main(const signed int argc, char* argv[]) {
             clean();
         } else {
             incarg:
-            std::cerr << argv[0] << ": 1м аргументом должно быть: '+', '-', '/', '%', '**', '^', '/%', '//', или '*'. Напишите \"" << argv[0] << " --help\" для получения дополнительной информации об операторах" << std::endl;
+            std::cerr << argv[0] << ": should be as 1st argument: '+', '-', '/', '%', '**', '^', '/%', '//', or '*'. Write \"" << argv[0] << " --help\" for get some information about available operators" << std::endl;
             return(1);
         }
     };
